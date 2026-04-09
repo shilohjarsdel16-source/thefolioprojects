@@ -1,0 +1,1 @@
+- [x] Step 1: Edit frontend/src/pages/RegisterPage.js - remove auto-redirect useEffect if(user) navigate&#10;- [x] Step 2: Update this TODO.md after edit
