@@ -15,13 +15,13 @@ connectDB(); //Connect to MongoDB
 
 //──Middleware─────────────────────────────────────────────────
 //Allow React (port3000) to call this server
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://theefolio.vercel.app",
-  ],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://thefolioprojects.vercel.app"],
+    credentials: true,
+  }));
 
 //Parse incomingJSONrequestbodies
 app.use(express.json());
