@@ -30,6 +30,10 @@ app.use(express.json());
 //e.g.http://localhost:5000/uploads/my-image.jpg
 app.use('/uploads', express.static(path.join(__dirname, "uploads")));
 
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
 //──Routes────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
