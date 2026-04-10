@@ -4,6 +4,14 @@ import API from "../api/axios";
 
 const AuthContext = createContext();
 
+const normalizeAuthResponse = (res) => {
+  const payload = res.data?.data || res.data;
+  return {
+    user: payload?.user || payload,
+    token: payload?.token || payload?.accessToken || res.data?.token,
+  };
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,7 +21,10 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     if (token) {
       API.get("/auth/me")
-        .then((res) => setUser(res.data))
+        .then((res) => {
+          const { user: meUser } = normalizeAuthResponse(res);
+          setUser(meUser);
+        })
         .catch(() => localStorage.removeItem("token")) // remove bad token
         .finally(() => setLoading(false));
     } else {
@@ -21,26 +32,32 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  //login():call the backend, save token, store user in state
+  //login(): call the backend, save token, store user in state
   const login = async (email, password) => {
-    const { data } = await API.post("/auth/login", { email, password });
-    localStorage.setItem("token", data.token);
-    setUser(data.user);
-    return data.user; //return user so caller can check role
+    const res = await API.post("/auth/login", { email, password });
+    const { user: loginUser, token } = normalizeAuthResponse(res);
+    if (!token) throw new Error("Login response did not include a token");
+    localStorage.setItem("token", token);
+    setUser(loginUser);
+    return loginUser; // return user so caller can check role
   };
 
   //register(): POST /auth/register with full payload (auto-login)
   const register = async (payload) => {
-    const { data } = await API.post("/auth/register", payload);
-    localStorage.setItem("token", data.token);
-    setUser(data.user);
-    return data.user;
+    const res = await API.post("/auth/register", payload);
+    const { user: registerUser, token } = normalizeAuthResponse(res);
+    if (token) {
+      localStorage.setItem("token", token);
+      setUser(registerUser);
+    }
+    return registerUser;
   };
 
   //registerNoLogin(): POST /auth/register WITHOUT auto-login (for Register->Login flow)
   const registerNoLogin = async (payload) => {
-    const { data } = await API.post("/auth/register", payload);
-    return data.user; // Return user data, no token/user state set
+    const res = await API.post("/auth/register", payload);
+    const { user: registerUser } = normalizeAuthResponse(res);
+    return registerUser; // Return user data, no token/user state set
   };
 
   //logout():clear token and user from memory

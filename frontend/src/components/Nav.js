@@ -88,7 +88,7 @@ function Nav({ children }) {
                           user.profilePic
                             ? user.profilePic.startsWith("avatar")
                               ? `/avatars/${user.profilePic}`
-                              : `${process.env.REACT_APP_BACKEND_URL}/uploads/${user.profilePic}`
+                              : `${process.env.REACT_APP_API_URL}/uploads/${user.profilePic}`
                             : "/avatars/avatar1.png"
                         }
                         alt="Profile"
@@ -117,7 +117,7 @@ function Nav({ children }) {
                         user.profilePic
                           ? user.profilePic.startsWith("avatar")
                             ? `/avatars/${user.profilePic}`
-                            : `${process.env.REACT_APP_BACKEND_URL}/uploads/${user.profilePic}`
+                            : `${process.env.REACT_APP_API_URL}/uploads/${user.profilePic}`
                           : "/default-avatar.png"
                       }
                       alt="Profile"
