@@ -158,7 +158,7 @@ const ProfilePage = () => {
     : user?.profilePic
       ? user.profilePic.startsWith("avatar")
         ? `/avatars/${user.profilePic}`
-        : `http://localhost:5000/uploads/${user.profilePic}`
+        : `${process.env.REACT_APP_BACKEND_URL}/uploads/${user.profilePic}`
       : "/avatars/avatar1.png"; // Better default fallback
 
   return (
@@ -318,7 +318,7 @@ const ProfilePage = () => {
               >
                 {post.image && (
                   <img
-                    src={`http://localhost:5000/uploads/${post.image}`}
+                    src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${post.image}`}
                     alt={post.title}
                     style={{
                       width: "100%",

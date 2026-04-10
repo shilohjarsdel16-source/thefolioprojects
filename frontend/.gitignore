@@ -1,4 +1,7 @@
 node_modules/
 .env
 .env.local
-build/
+.env.production
+build/'.env. 
+'.env' 
+'.env.production' 

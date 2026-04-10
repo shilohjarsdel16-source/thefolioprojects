@@ -103,7 +103,7 @@ function HomePage() {
                   <div className="post-card">
                     {post.image && (
                       <img
-                        src={`http://localhost:5000/uploads/${post.image}`}
+                        src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${post.image}`}
                         alt={post.title}
                       />
                     )}
@@ -115,7 +115,7 @@ function HomePage() {
                           post.author?.profilePic
                             ? post.author.profilePic.startsWith("avatar")
                               ? `/avatars/${post.author.profilePic}`
-                              : `http://localhost:5000/uploads/${post.author.profilePic}`
+                              : `${process.env.REACT_APP_BACKEND_URL}/uploads/${post.author.profilePic}`
                             : "/default-avatar.png"
                         }
                         alt="Author avatar"

@@ -144,7 +144,7 @@ const PostPage = () => {
                 post.author?.profilePic
                   ? post.author.profilePic.startsWith("avatar")
                     ? `/avatars/${post.author.profilePic}`
-                    : `http://localhost:5000/uploads/${post.author.profilePic}`
+                    : `${process.env.REACT_APP_BACKEND_URL}/uploads/${post.author.profilePic}`
                   : "/default-avatar.png"
               }
               alt="Author avatar"
@@ -190,7 +190,7 @@ const PostPage = () => {
         {post.image && (
           <div className="fb-post-image">
             <img
-              src={`http://localhost:5000/uploads/${post.image}`}
+              src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${post.image}`}
               alt="Post content"
             />
           </div>
@@ -229,7 +229,7 @@ const PostPage = () => {
                   user.profilePic
                     ? user.profilePic.startsWith("avatar")
                       ? `/avatars/${user.profilePic}`
-                      : `http://localhost:5000/uploads/${user.profilePic}`
+                      : `${process.env.REACT_APP_BACKEND_URL}/uploads/${user.profilePic}`
                     : "/default-avatar.png"
                 }
                 alt="Your avatar"
@@ -273,7 +273,7 @@ const PostPage = () => {
                         comment.author?.profilePic
                           ? comment.author.profilePic.startsWith("avatar")
                             ? `/avatars/${comment.author.profilePic}`
-                            : `http://localhost:5000/uploads/${comment.author.profilePic}`
+                            : `${process.env.REACT_APP_BACKEND_URL}/uploads/${comment.author.profilePic}`
                           : "/default-avatar.png"
                       }
                       alt="Commenter avatar"
