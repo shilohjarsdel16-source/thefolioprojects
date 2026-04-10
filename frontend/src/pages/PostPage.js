@@ -144,7 +144,7 @@ const PostPage = () => {
                 post.author?.profilePic
                   ? post.author.profilePic.startsWith("avatar")
                     ? `/avatars/${post.author.profilePic}`
-                    : `${process.env.REACT_APP_API_URL}/uploads/${post.author.profilePic}`
+                    : `${process.env.REACT_APP_API_URL?.replace("/api", "")}/uploads/${post.author.profilePic}`
                   : "/default-avatar.png"
               }
               alt="Author avatar"
@@ -190,7 +190,7 @@ const PostPage = () => {
         {post.image && (
           <div className="fb-post-image">
             <img
-              src={`${process.env.REACT_APP_API_URL}/uploads/${post.image}`}
+              src={`${process.env.REACT_APP_API_URL?.replace("/api", "")}/uploads/${post.image}`}
               alt="Post content"
             />
           </div>
@@ -229,7 +229,7 @@ const PostPage = () => {
                   user.profilePic
                     ? user.profilePic.startsWith("avatar")
                       ? `/avatars/${user.profilePic}`
-                      : `${process.env.REACT_APP_API_URL}/uploads/${user.profilePic}`
+                      : `${process.env.REACT_APP_API_URL?.replace("/api", "")}/uploads/${user.profilePic}`
                     : "/default-avatar.png"
                 }
                 alt="Your avatar"
@@ -273,7 +273,7 @@ const PostPage = () => {
                         comment.author?.profilePic
                           ? comment.author.profilePic.startsWith("avatar")
                             ? `/avatars/${comment.author.profilePic}`
-                            : `${process.env.REACT_APP_API_URL}/uploads/${comment.author.profilePic}`
+                            : `${process.env.REACT_APP_API_URL?.replace("/api", "")}/uploads/${comment.author.profilePic}`
                           : "/default-avatar.png"
                       }
                       alt="Commenter avatar"
