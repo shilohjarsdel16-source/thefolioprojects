@@ -43,16 +43,19 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/admin', adminRoutes);
 
 app.get("/reset-admin", async (req, res) => {
-  const bcrypt = require("bcryptjs");
-  const User = require("./models/User");
+  try {
+    const bcrypt = require("bcryptjs");
+    const User = require("./models/User");
 
-  const hash = await bcrypt.hash("Admin123", 10);
+    const hash = await bcrypt.hash("Admin123", 10);
 
-  await User.updateOne({ email: "admin@thefolio.com" }, { password: hash });
+    await User.updateOne({ email: "admin@thefolio.com" }, { password: hash });
 
-  res.send("Admin password reset");
+    res.send("✅ Admin password reset to: Admin123");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
-
 //──StartServer──────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
