@@ -1,6 +1,7 @@
 // backend/routes/auth.routes.js
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const { protect } = require("../middleware/auth.middleware");
 const upload = require("../middleware/upload");
@@ -62,15 +63,14 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
-    if (!user)
-      return res.status(400).json({ message: "Invalid email or password" });
+    if (!user) return res.status(400).json({ message: "User not found" });
     if (user.status === "inactive")
       return res.status(403).json({
         message: "Your account is deactivated. Please contact the admin.",
       });
-    const match = await user.matchPassword(password);
-    if (!match)
-      return res.status(400).json({ message: "Invalid email or password" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch)
+      return res.status(400).json({ message: "Invalid credentials" });
     res.json({
       token: generateToken(user._id),
       user: {
