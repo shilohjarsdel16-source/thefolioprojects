@@ -42,6 +42,17 @@ app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/admin', adminRoutes);
 
+app.get("/reset-admin", async (req, res) => {
+  const bcrypt = require("bcryptjs");
+  const User = require("./models/User");
+
+  const hash = await bcrypt.hash("Admin123", 10);
+
+  await User.updateOne({ email: "admin@thefolio.com" }, { password: hash });
+
+  res.send("Admin password reset");
+});
+
 //──StartServer──────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
