@@ -2,3 +2,5 @@
 '.env.production' 
 '.env' 
 '.env.production' 
+".env" 
+".nv.production" 
