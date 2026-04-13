@@ -1,3 +1,5 @@
+import cors from "cors";
+
 require("dotenv").config(); // Load .env variables FIRST
 const express = require("express");
 const cors = require("cors");
@@ -25,17 +27,22 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: (origin, callback) => {
+    origin: function (origin, callback) {
+      // allow requests with no origin (like Postman)
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
-      console.warn("Blocked CORS origin:", origin);
-      return callback(new Error("Not allowed by CORS"), false);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("CORS not allowed"));
+      }
     },
     credentials: true,
   }),
 );
 
 //Parse incomingJSONrequestbodies
+app.options("*", cors());
 app.use(express.json());
 
 //Serveuploadedimagefilesaspublic URLs
