@@ -7,10 +7,21 @@ function HomePage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const validPosts = Array.isArray(posts) ? posts : [];
 
   useEffect(() => {
     API.get("/posts")
-      .then((res) => setPosts(res.data))
+      .then((res) => {
+        const data = Array.isArray(res.data)
+          ? res.data
+          : Array.isArray(res.data?.posts)
+            ? res.data.posts
+            : [];
+        if (!Array.isArray(res.data)) {
+          console.warn("Unexpected posts response shape:", res.data);
+        }
+        setPosts(data);
+      })
       .catch((err) => console.error("Error fetching posts:", err))
       .finally(() => setLoading(false));
   }, []);
@@ -93,11 +104,11 @@ function HomePage() {
         <div className="home-page">
           <h2>Latest Posts</h2>
           {loading && <p>Loading posts...</p>}
-          {!loading && posts.length === 0 && (
+          {!loading && validPosts.length === 0 && (
             <p>No posts yet. Be the first to write one!</p>
           )}
           <div className="posts-grid">
-            {posts.map((post) => (
+            {validPosts.map((post) => (
               <div key={post._id} className="post-card-wrapper">
                 <Link to={`/post/${post._id}`} className="post-card-link">
                   <div className="post-card">
