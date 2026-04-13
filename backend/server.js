@@ -40,7 +40,6 @@ app.use(
 );
 
 //Parse incomingJSONrequestbodies
-app.options("*", cors());
 app.use(express.json());
 
 //Serveuploadedimagefilesaspublic URLs
