@@ -17,6 +17,7 @@ connectDB(); //Connect to MongoDB
 //Allow React frontend calls to this server
 const allowedOrigins = [
   "http://localhost:3000",
+  "https://thefolioprojects.vercel.app",
   "https://thefolioprojects-9pg8mmwrh-shilohjarsdel16-sources-projects.vercel.app",
   process.env.FRONTEND_URL,
   process.env.FRONTEND_PREVIEW_URL,
