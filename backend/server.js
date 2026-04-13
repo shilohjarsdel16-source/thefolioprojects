@@ -1,26 +1,35 @@
-require('dotenv').config(); // Load .env variables FIRST
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const connectDB = require('./config/db');
+require("dotenv").config(); // Load .env variables FIRST
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const connectDB = require("./config/db");
 
 //Importroutes(youwillcreatethese files in the next steps)
-const authRoutes = require('./routes/auth.routes');
-const postRoutes = require('./routes/post.routes');
-const commentRoutes = require('./routes/comment.routes');
-const adminRoutes = require('./routes/admin.routes');
+const authRoutes = require("./routes/auth.routes");
+const postRoutes = require("./routes/post.routes");
+const commentRoutes = require("./routes/comment.routes");
+const adminRoutes = require("./routes/admin.routes");
 
 const app = express();
 connectDB(); //Connect to MongoDB
 
 //──Middleware─────────────────────────────────────────────────
-//Allow React (port3000) to call this server
+//Allow React frontend calls to this server
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://thefolioprojects-9pg8mmwrh-shilohjarsdel16-sources-projects.vercel.app",
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_PREVIEW_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://thefolioprojects.vercel.app/",
-    ],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      console.warn("Blocked CORS origin:", origin);
+      return callback(new Error("Not allowed by CORS"), false);
+    },
     credentials: true,
   }),
 );
@@ -30,17 +39,17 @@ app.use(express.json());
 
 //Serveuploadedimagefilesaspublic URLs
 //e.g.http://localhost:5000/uploads/my-image.jpg
-app.use('/uploads', express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
 //──Routes────────────────────────────────────────────────────
-app.use('/api/auth', authRoutes);
-app.use('/api/posts', postRoutes);
-app.use('/api/comments', commentRoutes);
-app.use('/api/admin', adminRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/reset-admin", async (req, res) => {
   try {
