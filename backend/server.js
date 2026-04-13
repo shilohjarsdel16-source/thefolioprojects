@@ -1,5 +1,3 @@
-import cors from "cors";
-
 require("dotenv").config(); // Load .env variables FIRST
 const express = require("express");
 const cors = require("cors");
