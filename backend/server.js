@@ -14,27 +14,13 @@ const app = express();
 connectDB(); //Connect to MongoDB
 
 //──Middleware─────────────────────────────────────────────────
-//Allow React frontend calls to this server
-app.use(cors({
-  origin: [
-  "http://localhost:3000",
-  "thefolioprojects-zu2w.vercel.app",
-  ],
-  credentials: true,
-}));
-
+// ✅ CORS fixed for Vercel frontend
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin (like Postman)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("CORS not allowed"));
-      }
-    },
+    origin: [
+      "http://localhost:3000",
+      "https://thefolioprojects-zu2w-h2b1rqs6e.vercel.app",
+    ],
     credentials: true,
   }),
 );
