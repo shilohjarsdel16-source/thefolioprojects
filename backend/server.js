@@ -15,12 +15,13 @@ connectDB(); //Connect to MongoDB
 
 //──Middleware─────────────────────────────────────────────────
 //Allow React frontend calls to this server
-const allowedOrigins = [
+app.use(cors({
+  origin: [
   "http://localhost:3000",
-  "https://thefolioprojects.vercel.app",
-  process.env.FRONTEND_URL,
-  process.env.FRONTEND_PREVIEW_URL,
-].filter(Boolean);
+  "thefolioprojects-zu2w.vercel.app",
+  ],
+  credentials: true,
+}));
 
 app.use(
   cors({
@@ -72,5 +73,5 @@ app.get("/reset-admin", async (req, res) => {
 //──StartServer──────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
