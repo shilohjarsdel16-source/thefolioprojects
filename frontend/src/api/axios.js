@@ -1,15 +1,11 @@
 //frontend/src/api/axios.js
 import axios from "axios";
 
-const baseURL =
-  process.env.REACT_APP_API_URL ||
-  (process.env.NODE_ENV === "development"
-    ? "http://localhost:5000/api"
-    : "/api");
-
 const instance = axios.create({
-  baseURL,
+  //UsesREACT_APP_API_URLfrom.env or .env.production
+  baseURL: process.env.REACT_APP_API_URL || "http://localhost:5000/api",
 });
+
 
 //This interceptor runs before EVERY request.
 //It reads the token from localStorage and adds it to the Authorization header.
