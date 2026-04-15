@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://thefolioprojects-zu2w-h2b1rqs6e.vercel.app",
+      "thefolioprojects-zu2w-bjfkmvs1t.vercel.app",
     ],
     credentials: true,
   }),
